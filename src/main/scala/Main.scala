@@ -11,8 +11,8 @@ def breakCamelCase(s: String): String =
     else
       val h = s.head
       val t = s.tail
-      if h.isLower then go(t, acc.concat(h.toString))
-      else go(t, acc.concat(" ".concat(h.toString)))
+      if h.isLower then go(t, acc + h)
+      else go(t, acc + " " + h)
 
   go(s, "")
 
@@ -71,6 +71,7 @@ def high(s: String): String =
  * https://www.codewars.com/kata/515de9ae9dcfc28eb6000001/train/scala
  */
 def splitStrings(s: String): List[String] =
+  @tailrec
   def go(
       ss: String,
       count: Int,
