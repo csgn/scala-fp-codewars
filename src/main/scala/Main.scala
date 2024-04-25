@@ -102,6 +102,7 @@ def findMissing(sequence: Seq[Int]): Int = 0
  * https://www.codewars.com/kata/55bf01e5a717a0d57e0000ec/train/scala
  */
 def persistence(n: Int): Int =
+  @tailrec
   def go(x: Int, buff: Int, acc: Int): Int =
     if x == 0 then
       if buff / 10 == 0 then
@@ -111,3 +112,24 @@ def persistence(n: Int): Int =
     else go(x / 10, buff * (x % 10), acc)
 
   go(n, 1, 0)
+
+/*
+ * Write Number in Expanded Form
+ * https://www.codewars.com/kata/5842df8ccbd22792a4000245/train/scala
+ */
+def expandedForm(n: Long): String =
+  @tailrec
+  def go(nn: Long, place: Long, acc: String): String =
+    if nn == 0 then acc
+    else
+      val c: Long = nn % 10
+      val nextNN: Long = nn / 10
+      val nextPlace: Long = place * 10
+      val nextAcc = if c == 0 then "" else (c * place).toString
+
+      if nextAcc == "" then go(nextNN, nextPlace, acc)
+      else if place == 1 || place != 1 && acc == "" then
+        go(nextNN, nextPlace, nextAcc + acc)
+      else go(nextNN, nextPlace, nextAcc + " + " + acc)
+
+  go(n, 1, "")

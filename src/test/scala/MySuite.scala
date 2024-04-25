@@ -1,6 +1,11 @@
 import scala.util.Random
 
 class MySuite extends munit.FunSuite {
+  def runTestCases[A, B](testCases: List[(A, B)], func: A => B) =
+    testCases.foreach { case (xs, expected) =>
+      assertEquals(func(xs), expected, s"\n$xs should be $expected\n")
+    }
+
   test("breakCamelCase") {
     assertEquals(
       breakCamelCase("helloWorld"),
@@ -88,9 +93,7 @@ class MySuite extends munit.FunSuite {
       (640032000400000000L, 40000)
     )
 
-    testCases.foreach { case (m, expected) =>
-      assertEquals({ findNb(m) }, expected, s"\nInput:\n m = $m")
-    }
+    runTestCases(testCases, findNb)
   }
 
   test("Highest Scoring Word") {
@@ -107,9 +110,7 @@ class MySuite extends munit.FunSuite {
       ("aaa b", "aaa")
     )
 
-    testCases.foreach { case (m, expected) =>
-      assertEquals({ high(m) }, expected, s"\n$m should be $expected\n")
-    }
+    runTestCases(testCases, high)
   }
 
   test("Split Strings") {
@@ -120,9 +121,7 @@ class MySuite extends munit.FunSuite {
       ("x", List("x_"))
     )
 
-    testCases.foreach { case (m, expected) =>
-      assertEquals({ splitStrings(m) }, expected, s"\n$m should be $expected\n")
-    }
+    runTestCases(testCases, splitStrings)
   }
 
   // test("Find the missing term in an Arithmetic Progression") {
@@ -145,9 +144,21 @@ class MySuite extends munit.FunSuite {
       (397018, 1)
     )
 
-    testCases.foreach { case (xs, expected) =>
-      assertEquals(persistence(xs), expected, s"\n$xs should be $expected\n")
-    }
+    runTestCases(testCases, persistence)
+  }
+
+  test("Write Number in Expanded Form") {
+    val testCases = List(
+      (2L, "2"),
+      (12L, "10 + 2"),
+      (42L, "40 + 2"),
+      (4982342L, "4000000 + 900000 + 80000 + 2000 + 300 + 40 + 2"),
+      (420370022L, "400000000 + 20000000 + 300000 + 70000 + 20 + 2"),
+      (70304L, "70000 + 300 + 4"),
+      (9000000L, "9000000")
+    )
+
+    runTestCases(testCases, expandedForm)
   }
 
 }
