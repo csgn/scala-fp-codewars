@@ -90,3 +90,24 @@ def splitStrings(s: String): List[String] =
       else go(t, count + 1, nextBuff, acc)
 
   go(s, 1, "", List())
+
+/*
+ * Find the missing term in an Arithmetic Progression
+ * https://www.codewars.com/kata/52de553ebb55d1fca3000371/train/scala
+ */
+def findMissing(sequence: Seq[Int]): Int = 0
+
+/*
+ * Persistent Bugger
+ * https://www.codewars.com/kata/55bf01e5a717a0d57e0000ec/train/scala
+ */
+def persistence(n: Int): Int =
+  def go(x: Int, buff: Int, acc: Int): Int =
+    if x == 0 then
+      if buff / 10 == 0 then
+        if acc == 0 && buff != 0 then acc
+        else acc + 1
+      else go(buff, 1, acc + 1)
+    else go(x / 10, buff * (x % 10), acc)
+
+  go(n, 1, 0)

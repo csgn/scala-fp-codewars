@@ -125,4 +125,29 @@ class MySuite extends munit.FunSuite {
     }
   }
 
+  // test("Find the missing term in an Arithmetic Progression") {
+  //   val testCases = List(
+  //     (Seq(1, 2, 3, 4, 6, 7, 8, 9), 5),
+  //     (Seq(1, 3, 4, 5, 6, 7, 8, 9), 2),
+  //     (Seq(1, 3, 5, 9, 11), 7)
+  //   )
+  //
+  //   testCases.foreach { case (xs, expected) =>
+  //     assertEquals(findMissing(xs), expected, s"\n$xs should be $expected\n")
+  //   }
+  // }
+
+  test("Persistent Bugger") {
+    val testCases = List(
+      (39, 3),
+      (999, 4),
+      (4, 0),
+      (397018, 1)
+    )
+
+    testCases.foreach { case (xs, expected) =>
+      assertEquals(persistence(xs), expected, s"\n$xs should be $expected\n")
+    }
+  }
+
 }
