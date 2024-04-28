@@ -1,4 +1,5 @@
 import scala.annotation.tailrec
+import math.Numeric.Implicits.infixNumericOps
 
 /*
  * Break camelCase
@@ -133,3 +134,111 @@ def expandedForm(n: Long): String =
       else go(nextNN, nextPlace, nextAcc + " + " + acc)
 
   go(n, 1, "")
+
+/*
+ * Multiples of 3 or 5
+ * https://www.codewars.com/kata/514b92a657cdc65150000006/train/scala
+ */
+def multiplesOf3Or5(number: Int): Long =
+  @tailrec
+  def go(c: Int, acc: Long): Long =
+    if c == number then acc
+    else go(c + 1, if c % 3 == 0 || c % 5 == 0 then c + acc else acc)
+
+  go(0, 0)
+
+/*
+ * Find The Parity Outlier
+ * https://www.codewars.com/kata/5526fc09a1bbd946250002dc/train/scala
+ */
+def findOutlier(integers: List[Int]): Int =
+  @tailrec
+  def go(as: List[Int], acc: Option[Int], acc2: Option[Int]): Option[Int] =
+    if as.isEmpty then acc
+    else
+      val h = as.head
+      val t = as.tail
+
+      acc match
+        case None => go(t, Some(h), None)
+        case Some(value1) =>
+          acc2 match
+            case None =>
+              if math.abs(h) % 2 == math.abs(value1) % 2 then go(t, acc, None)
+              else go(t, Some(h), acc)
+            case Some(value2) =>
+              if math.abs(h) % 2 == math.abs(value2) % 2 then acc else acc2
+
+  go(integers, None, None) match
+    case None        => -1
+    case Some(value) => value
+
+/*
+ * RGB To Hex Conversion
+ * https://www.codewars.com/kata/513e08acc600c94f01000001/train/scala
+ */
+
+def rgb(r: Int, g: Int, b: Int): String =
+  List(r, g, b)
+    .map(el => {
+      if el < 0 then 0 else if el > 255 then 255 else el
+    })
+    .map(el => {
+      val hx = el.toHexString.toUpperCase
+      if hx.length < 2 then "0" + hx
+      else hx
+    })
+    .fold("")((acc, el) => acc + "" + el)
+
+/*
+ * Pyramid Array
+ * https://www.codewars.com/kata/515f51d438015969f7000013/train/scala
+ */
+def pyramid(n: Int): List[List[Int]] =
+  def go(c: Int, acc: List[List[Int]]): List[List[Int]] =
+    if c > n then acc
+    else
+      val ll = if c == 0 then Nil else List(List.fill(c)(1))
+      go(c + 1, acc ::: ll)
+
+  go(0, Nil)
+
+/*
+ * Primes in numbers
+ * https://www.codewars.com/kata/54d512e62a5e54c96200019e/train/scala
+ */
+def factors(m: Int): String =
+  def go(n: Int, d: Int, c: Int, acc: String): String =
+    if n <= 1 then
+      if c > 0 then acc + s"($d)"
+      else acc
+    else if n % d == 0 then go(n / d, d, c + 1, acc)
+    else
+      val nextAcc =
+        if c > 0 then acc + "(" + d + (if c > 1 then s"**$c" else "") + ")"
+        else acc
+      go(n, d + 1, 0, nextAcc)
+
+  go(m, 2, 0, "")
+
+/*
+ * Tribonacci Sequence
+ * https://www.codewars.com/kata/556deca17c58da83c00002db/train/scala
+ */
+def tribonacci[T: Numeric](signature: List[T], n: Int): List[T] =
+  if n <= 3 then signature take n
+  else
+    @tailrec
+    def go(f: T, s: T, t: T, acc: List[T]): List[T] =
+      if acc.length >= n then acc
+      else
+        val r = f + s + t
+        go(s, t, r, acc ::: List(r))
+
+    go(signature(0), signature(1), signature(2), signature)
+
+/*
+ * Snail
+ * https://www.codewars.com/kata/521c2db8ddc89b9b7a0000c1/train/scala
+ */
+def snail(xs: List[List[Int]]): List[Int] = ???
